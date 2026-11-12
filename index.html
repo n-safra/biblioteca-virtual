@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<!--
+Descricao: Projeto integrador - Biblioteca Virtual de Olímpia (login por conversa com a coruja)
+nome_arquivo: index.html
+nome_exercicio: Projeto Biblioteca Virtual de Olímpia - Feira de Tecnologia FATEC
+nome_aluno: Nicolas Safra Gazige
+email_aluno: nicolas.gazige@aluno.cps.sp.gov.br
+turma: WEBI-ISW028-A
+-->
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biblioteca Virtual de Olímpia</title>
+    <meta name="description" content="Biblioteca Virtual de Olímpia: acervo da Biblioteca Municipal, leitura digital, troca de livros e acessibilidade com a Coruja Buraqueira, que lê em voz alta e traduz em Libras.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&display=swap">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- Ícones reutilizados -->
+<svg class="sprite-icones" aria-hidden="true">
+  <symbol id="i-som" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></symbol>
+  <symbol id="i-maos" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 11V5.5a1.5 1.5 0 0 1 3 0V10"/><path d="M10 9.5V4a1.5 1.5 0 0 1 3 0v6"/><path d="M13 9.5V5a1.5 1.5 0 0 1 3 0v7"/><path d="M16 11a1.5 1.5 0 0 1 3 0v3a7 7 0 0 1-7 7h-.6a6 6 0 0 1-4.6-2.2L4 15.5a1.6 1.6 0 0 1 2.4-2.1L7 14"/></symbol>
+  <symbol id="i-lua" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5z"/></symbol>
+  <symbol id="i-sol" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol>
+  <symbol id="i-contraste" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/></symbol>
+  <symbol id="i-parar" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="6" width="12" height="12" rx="2"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.5-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z"/></symbol>
+  <symbol id="i-pausa" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></symbol>
+  <symbol id="i-busca" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
+  <symbol id="i-olho" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-ouvido" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9a6 6 0 1 1 12 0c0 3-2 4-3 5.5S14 18 12 20a3 3 0 0 1-4-1"/><path d="M9.5 9a2.5 2.5 0 0 1 5 0c0 1.5-1.5 2-1.5 3"/></symbol>
+  <symbol id="i-pessoas" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><circle cx="17" cy="9" r="2.5"/><path d="M16 14a5 5 0 0 1 5.5 5"/></symbol>
+  <symbol id="i-pino" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></symbol>
+  <symbol id="i-fechar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+  <symbol id="i-livro" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 19V5"/><path d="M8 7h7"/></symbol>
+  <symbol id="i-estrela" viewBox="0 0 24 24" fill="currentColor"><path d="m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"/></symbol>
+  <symbol id="i-troca" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h13l-3-3"/><path d="M20 16H7l3 3"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
+  <symbol id="i-letra" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 19 8.5 5 14 19"/><path d="M5 14h7"/><path d="M15.5 12.5a2.8 2.8 0 0 1 5.5.5v6"/><path d="M21 16.5c-2.5-.8-5.5-.4-5.5 1.3 0 1.8 3.5 1.8 5.5-.3"/></symbol>
+  <symbol id="i-olho-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3l18 18"/><path d="M10.6 5.1A9.8 9.8 0 0 1 12 5c6.4 0 10 7 10 7a17 17 0 0 1-3.2 4"/><path d="M6.6 6.6C3.7 8.4 2 12 2 12s3.6 7 10 7a9.6 9.6 0 0 0 5.4-1.6"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/></symbol>
+  <symbol id="i-chave" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/><circle cx="12" cy="15.5" r="1.5" fill="currentColor"/></symbol>
+  <symbol id="i-digital" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 6.8A8 8 0 0 1 20 12.5"/><path d="M4 11.5a8 8 0 0 1 1.2-3"/><path d="M4.5 16a14 14 0 0 0 .5-4.5 7 7 0 0 1 1-3.5"/><path d="M8 20a17 17 0 0 0 1-7.5 3 3 0 0 1 6 0c0 1.2 0 2.4-.2 3.6"/><path d="M12 12.5c0 3-.6 5.8-2 8.5"/><path d="M14.5 21a20 20 0 0 0 .9-2.3"/><path d="M18 19.5c.5-1.6.8-3.3.9-5"/></symbol>
+  <symbol id="i-celular" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M11 18.5h2"/></symbol>
+  <symbol id="i-mic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0"/><path d="M12 17.5V21"/><path d="M9 21h6"/></symbol>
+  <symbol id="i-sino" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 21h4"/></symbol>
+</svg>
+
+<a class="pular" href="#conteudo">Pular para o conteúdo</a>
+
+<!-- Barra de acessibilidade -->
+<div class="acess" role="region" aria-label="Opções de acessibilidade">
+  <div class="wrap" role="toolbar" aria-label="Acessibilidade">
+    <span class="acess-titulo">Acessibilidade</span>
+    <div class="grupo" role="group" aria-label="Tamanho do texto">
+      <button type="button" id="fonte-menos" aria-label="Diminuir texto">A−</button>
+      <button type="button" id="fonte-padrao" aria-label="Texto no tamanho padrão">A</button>
+      <button type="button" id="fonte-mais" aria-label="Aumentar texto">A+</button>
+    </div>
+    <button type="button" id="bt-tema" aria-pressed="false"><svg class="ico"><use href="#i-lua"/></svg><span>Tema escuro</span></button>
+    <button type="button" id="bt-contraste" aria-pressed="false"><svg class="ico"><use href="#i-contraste"/></svg>Alto contraste</button>
+    <button type="button" id="bt-voz" aria-pressed="true"><svg class="ico"><use href="#i-som"/></svg>Voz da coruja</button>
+    <button type="button" id="bt-libras" aria-pressed="true"><svg class="ico"><use href="#i-maos"/></svg>Janela de Libras</button>
+    <button type="button" id="bt-vlibras" aria-pressed="false"><svg class="ico"><use href="#i-maos"/></svg>Intérprete de Libras</button>
+    <label class="grupo"><span class="sr">Velocidade da voz</span>
+      <select id="sel-vel" aria-label="Velocidade da voz">
+        <option value="0.75">Voz lenta</option>
+        <option value="1" selected>Voz normal</option>
+        <option value="1.25">Voz rápida</option>
+      </select>
+    </label>
+    <button type="button" class="parar" id="bt-parar-global"><svg class="ico"><use href="#i-parar"/></svg>Parar leitura <span class="sr">(tecla Esc)</span></button>
+  </div>
+</div>
+
+<header class="topo">
+  <div class="wrap">
+    <a class="marca" href="#inicio" aria-label="Biblioteca Virtual de Olímpia, início">
+      <span data-coruja="mini-marca"></span>
+      <span><strong>Biblioteca Virtual<br>de Olímpia</strong></span>
+    </a>
+    <div class="topo-dir">
+      <nav aria-label="Principal" id="nav-principal">
+        <ul class="menu">
+          <li><a href="#acervo">Acervo</a></li>
+          <li><a href="#leitura">Ler agora</a></li>
+          <li><a href="#trocas">Trocas</a></li>
+          <li><a href="#cantinho">Meu cantinho</a></li>
+          <li><a href="#sobre">O projeto</a></li>
+        </ul>
+      </nav>
+      <div class="conta" id="conta"></div>
+    </div>
+  </div>
+</header>
+
+<!-- Tela de login -->
+<!-- Tela de toque: ao abrir o site, a página inteira vira um botão que começa a conversa com a coruja.
+     O navegador não deixa som nem microfone começarem sozinhos, então o primeiro toque (ou tecla) libera os dois. -->
+<div class="tela-toque" id="tela-toque" hidden>
+  <button type="button" class="toque-area" id="bt-toque">
+    <span data-coruja="toque"></span>
+    <span class="toque-titulo">Toque em qualquer lugar da tela</span>
+    <span class="toque-texto">e a coruja começa a conversar com você para entrar na Biblioteca Virtual de Olímpia.</span>
+    <span class="toque-tecla">No computador, aperte qualquer tecla.</span>
+  </button>
+  <button type="button" class="link-bt toque-pular" id="bt-toque-pular">Prefiro usar o formulário</button>
+</div>
+
+<section class="login" id="tela-login" aria-labelledby="t-login" hidden>
+  <div class="wrap login-grade">
+    <div class="login-boas">
+      <span class="selo"><i aria-hidden="true"></i>Biblioteca Virtual de Olímpia</span>
+      <h1 id="t-login" tabindex="-1">Entre na sua biblioteca</h1>
+      <div class="login-coruja">
+        <span data-coruja="login"></span>
+        <div class="pilha pilha-inicio">
+          <p class="balao balao-lado" id="balao-login">Aqui ninguém precisa digitar senha. Entre com a sua digital ou com um código que você fala em voz alta. Se preferir, a gente conversa e eu preencho tudo pra você.</p>
+          <button class="btn btn-sec btn-sm" type="button" id="bt-instrucoes"><svg class="ico" aria-hidden="true"><use href="#i-som"/></svg>Ouvir instruções</button>
+        </div>
+      </div>
+      <div class="bloco-conversar" id="bloco-conversar">
+        <button class="btn btn-olho" type="button" id="bt-conversar"><svg class="ico" aria-hidden="true"><use href="#i-mic"/></svg>Conversar com a coruja</button>
+        <small id="conversar-dica">Ela faz as perguntas em voz alta. Você responde falando ou digitando, e o formulário se preenche sozinho.</small>
+      </div>
+
+      <section class="conversa" id="conversa" aria-labelledby="t-conversa" hidden>
+        <div class="conversa-cab">
+          <h2 id="t-conversa">Conversa com a coruja</h2>
+          <span class="linha-botoes">
+            <button class="btn btn-sec btn-sm" type="button" id="bt-tentar-mic"><svg class="ico" aria-hidden="true"><use href="#i-mic"/></svg>Testar microfone</button>
+            <button class="btn btn-sec btn-sm" type="button" id="bt-sair-conversa">Voltar ao formulário</button>
+          </span>
+        </div>
+        <ol class="mensagens" id="mensagens" aria-live="off"></ol>
+        <p class="ouvindo" id="ouvindo" hidden><span class="ondas" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span id="ouvindo-texto">Ouvindo… pode falar</span></p>
+        <form class="resposta" id="form-resposta" novalidate>
+          <label for="resposta" id="rot-resposta">Sua resposta</label>
+          <div class="resposta-linha">
+            <button type="button" class="bt-mic" id="bt-mic" aria-pressed="false" aria-label="Falar a resposta"><svg aria-hidden="true"><use href="#i-mic"/></svg></button>
+            <input id="resposta" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" aria-describedby="resposta-dica">
+            <button class="btn btn-pri" type="submit">Enviar</button>
+          </div>
+          <p class="caps" id="mic-diag" role="status" hidden></p>
+          <p class="nota" id="resposta-dica">A qualquer momento diga ou digite “repetir”, “voltar” ou “cancelar”.</p>
+        </form>
+      </section>
+
+      <fieldset class="prefs-rapidas">
+        <legend>Como você prefere usar o site?</legend>
+        <button type="button" class="pref-btn" data-pref="guiaVoz" aria-pressed="false">
+          <span class="ico-g"><svg aria-hidden="true"><use href="#i-som"/></svg></span>
+          <b>A coruja lê pra mim</b><small>Ela fala cada campo e cada aviso</small>
+        </button>
+        <button type="button" class="pref-btn" data-pref="guiaLibras" aria-pressed="false">
+          <span class="ico-g"><svg aria-hidden="true"><use href="#i-maos"/></svg></span>
+          <b>Libras e legendas</b><small>Cada campo explicado em Libras e texto</small>
+        </button>
+        <button type="button" class="pref-btn" data-pref="grande" aria-pressed="false">
+          <span class="ico-g"><svg aria-hidden="true"><use href="#i-letra"/></svg></span>
+          <b>Letra grande</b><small>Todo o texto 25% maior</small>
+        </button>
+        <button type="button" class="pref-btn" data-pref="contraste" aria-pressed="false">
+          <span class="ico-g"><svg aria-hidden="true"><use href="#i-contraste"/></svg></span>
+          <b>Alto contraste</b><small>Amarelo e branco sobre preto</small>
+        </button>
+      </fieldset>
+    </div>
+
+    <div class="cartao-login">
+      <div class="abas-login" role="tablist" aria-label="Entrar ou criar conta">
+        <button type="button" role="tab" id="aba-entrar" aria-selected="true" aria-controls="painel-entrar">Entrar</button>
+        <button type="button" role="tab" id="aba-criar" aria-selected="false" aria-controls="painel-criar" tabindex="-1">Criar conta</button>
+      </div>
+
+      <!-- Entrar -->
+      <div role="tabpanel" id="painel-entrar" aria-labelledby="aba-entrar" class="form-login">
+        <div class="resumo-erros" id="resumo-entrar" tabindex="-1" hidden></div>
+        <form id="form-entrar" class="form-login" novalidate>
+          <div class="campo-login">
+            <label for="ln-usuario">E-mail ou celular</label>
+            <span class="dica" id="ln-usuario-dica">Exemplo: maria@email.com ou (17) 99999-0000</span>
+            <input id="ln-usuario" name="usuario" type="text" inputmode="email" autocomplete="username" autocapitalize="off" spellcheck="false" aria-describedby="ln-usuario-dica ln-usuario-erro">
+            <p class="erro-campo" id="ln-usuario-erro" hidden></p>
+          </div>
+          <div class="campo-login">
+            <label for="ln-senha">Senha</label>
+            <span class="dica" id="ln-senha-dica">A senha que você criou no cadastro</span>
+            <div class="senha-wrap">
+              <input id="ln-senha" name="senha" type="password" autocomplete="current-password" aria-describedby="ln-senha-dica ln-senha-caps ln-senha-erro">
+              <button type="button" class="bt-mostrar" data-mostrar="ln-senha" aria-pressed="false"><svg aria-hidden="true"><use href="#i-olho"/></svg><span>Mostrar</span><span class="sr"> senha</span></button>
+            </div>
+            <p class="caps" id="ln-senha-caps" hidden>Caps Lock está ligado</p>
+            <p class="erro-campo" id="ln-senha-erro" hidden></p>
+          </div>
+          <div class="linha-login">
+            <label class="check" for="ln-lembrar"><input type="checkbox" id="ln-lembrar">Manter conectado neste aparelho</label>
+            <button type="button" class="link-bt" id="bt-esqueci">Esqueci minha senha</button>
+          </div>
+          <button class="btn btn-pri btn-grande" type="submit">Entrar</button>
+        </form>
+
+        <div class="divisor"><span>ou</span></div>
+
+        <div class="opcoes-login">
+          <button class="btn btn-olho btn-grande" type="button" id="bt-digital"><svg class="ico" aria-hidden="true"><use href="#i-digital"/></svg>Entrar com digital ou rosto</button>
+          <small class="nota centro" id="digital-dica">Não precisa escrever nada: o aparelho pede a sua digital, o rosto ou o PIN.</small>
+          <button class="btn btn-sec btn-grande" type="button" id="bt-codigo"><svg class="ico" aria-hidden="true"><use href="#i-chave"/></svg>Receber código de 6 números</button>
+          <form class="passo-codigo" id="form-codigo" novalidate hidden>
+            <p id="codigo-info" class="nota nota-forte"></p>
+            <div class="campo-login">
+              <label for="ln-codigo">Código de 6 números</label>
+              <span class="dica" id="ln-codigo-dica">Vale por 5 minutos. Dá para falar o código na conversa com a coruja.</span>
+              <input id="ln-codigo" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="6" aria-describedby="ln-codigo-dica ln-codigo-erro">
+              <p class="erro-campo" id="ln-codigo-erro" hidden></p>
+            </div>
+            <button class="btn btn-pri" type="submit">Entrar com o código</button>
+          </form>
+          <div class="visitante">
+            <button type="button" class="link-bt" id="bt-visitante">Continuar sem conta</button>
+            <small>Sem conta você pesquisa e lê, mas não reserva nem troca livros.</small>
+          </div>
+        </div>
+      </div>
+
+      <!-- Criar conta -->
+      <div role="tabpanel" id="painel-criar" aria-labelledby="aba-criar" class="form-login" hidden>
+        <div class="resumo-erros" id="resumo-criar" tabindex="-1" hidden></div>
+        <form id="form-criar" class="form-login" novalidate>
+          <div class="campo-login">
+            <label for="cr-nome">Seu nome</label>
+            <span class="dica" id="cr-nome-dica">Como você quer ser chamado no site</span>
+            <input id="cr-nome" type="text" autocomplete="name" aria-describedby="cr-nome-dica cr-nome-erro">
+            <p class="erro-campo" id="cr-nome-erro" hidden></p>
+          </div>
+          <div class="campo-login">
+            <label for="cr-usuario">E-mail ou celular</label>
+            <span class="dica" id="cr-usuario-dica">Vamos usar para avisar sobre reservas e trocas</span>
+            <input id="cr-usuario" type="text" inputmode="email" autocomplete="username" autocapitalize="off" spellcheck="false" aria-describedby="cr-usuario-dica cr-usuario-erro">
+            <p class="erro-campo" id="cr-usuario-erro" hidden></p>
+          </div>
+          <fieldset class="ajuste-perfil escolha-entrada">
+            <legend>Como você quer entrar nas próximas vezes?</legend>
+            <label class="check" for="cr-metodo-digital"><input type="radio" name="metodo" id="cr-metodo-digital" value="digital" checked><span>Com a minha digital ou rosto (recomendado)<small>Nada para digitar nem falar. O aparelho confirma que é você.</small></span></label>
+            <label class="check" for="cr-metodo-codigo"><input type="radio" name="metodo" id="cr-metodo-codigo" value="codigo"><span>Com um código no celular ou e-mail<small>Você recebe 6 números e fala ou digita. Cada código vale uma vez só.</small></span></label>
+            <label class="check" for="cr-metodo-senha"><input type="radio" name="metodo" id="cr-metodo-senha" value="senha"><span>Com uma senha<small>Do jeito tradicional, digitando.</small></span></label>
+          </fieldset>
+          <div id="bloco-cr-senha" hidden>
+            <div class="campo-login">
+              <label for="cr-senha">Crie uma senha</label>
+              <span class="dica" id="cr-senha-dica">Pelo menos 6 caracteres</span>
+              <div class="senha-wrap">
+                <input id="cr-senha" type="password" autocomplete="new-password" aria-describedby="cr-senha-dica cr-senha-caps cr-senha-erro">
+                <button type="button" class="bt-mostrar" data-mostrar="cr-senha" aria-pressed="false"><svg aria-hidden="true"><use href="#i-olho"/></svg><span>Mostrar</span><span class="sr"> senha</span></button>
+              </div>
+              <p class="caps" id="cr-senha-caps" hidden>Caps Lock está ligado</p>
+              <p class="erro-campo" id="cr-senha-erro" hidden></p>
+            </div>
+          </div>
+          <fieldset class="ajuste-perfil">
+            <legend>Quer o site já ajustado para você? (opcional)</legend>
+            <label class="check" for="cr-visual"><input type="checkbox" id="cr-visual"><span>Sou cego ou tenho baixa visão<small>Liga a voz da coruja e a letra grande</small></span></label>
+            <label class="check" for="cr-auditiva"><input type="checkbox" id="cr-auditiva"><span>Sou surdo ou tenho deficiência auditiva<small>Liga a janela de Libras e as legendas</small></span></label>
+          </fieldset>
+          <button class="btn btn-pri btn-grande" type="submit">Criar conta</button>
+        </form>
+      </div>
+
+      <p class="nota demo">Demonstração: as contas ficam guardadas só neste navegador. O código aparece numa notificação que imita o celular. Sem leitor de digital, a entrada por digital é simulada.</p>
+    </div>
+  </div>
+</section>
+
+<main id="conteudo" tabindex="-1">
+  <!-- Herói -->
+  <section class="heroi" id="inicio" aria-labelledby="titulo-heroi">
+    <div class="wrap heroi-grade">
+      <div class="heroi-texto">
+        <span class="selo"><i aria-hidden="true"></i>Com a Coruja Buraqueira, patrimônio de Olímpia</span>
+        <h1 id="titulo-heroi">Olímpia inteira <em>lendo junto</em>.</h1>
+        <p class="lead">Procure livros da Biblioteca Municipal, leia obras digitais e troque livros com vizinhos. A coruja lê tudo em voz alta e mostra cada trecho em Libras.</p>
+        <form class="busca-heroi" id="form-busca-heroi" role="search" aria-label="Buscar no acervo">
+          <label for="busca-heroi" class="sr">Buscar por título, autor ou gênero</label>
+          <input id="busca-heroi" class="campo-texto" type="search" placeholder="Título, autor ou gênero" autocomplete="off">
+          <button class="btn btn-pri" type="submit"><svg class="ico" aria-hidden="true"><use href="#i-busca"/></svg>Buscar</button>
+        </form>
+      </div>
+      <div class="palco">
+        <div class="balao" id="balao-heroi"><b>Oi! Eu sou a Buraqueira.</b> Moro numa toca aqui em Olímpia e adoro ler. Quer que eu leia pra você?</div>
+        <span data-coruja="heroi"></span>
+        <div class="palco-acoes">
+          <button class="btn btn-olho" type="button" id="bt-boas-vindas"><svg class="ico" aria-hidden="true"><use href="#i-som"/></svg>Ouvir a coruja</button>
+          <a class="btn btn-sec" href="#leitura">Ler um livro</a>
+        </div>
+      </div>
+    </div>
+    <div class="wrap">
+      <div class="tres">
+        <article>
+          <span class="ico-g"><svg aria-hidden="true"><use href="#i-olho"/></svg></span>
+          <h3>Para quem não enxerga</h3>
+          <ul>
+            <li>A coruja lê livros, resumos e avisos em voz alta</li>
+            <li>Funciona com leitor de tela e só com teclado</li>
+            <li>Texto grande e alto contraste em um clique</li>
+          </ul>
+        </article>
+        <article>
+          <span class="ico-g"><svg aria-hidden="true"><use href="#i-ouvido"/></svg></span>
+          <h3>Para quem não ouve</h3>
+          <ul>
+            <li>A coruja traduz cada trecho em Libras</li>
+            <li>Tudo que ela fala aparece em legenda</li>
+            <li>Avisos sempre visuais, nunca só sonoros</li>
+          </ul>
+        </article>
+        <article>
+          <span class="ico-g"><svg aria-hidden="true"><use href="#i-pessoas"/></svg></span>
+          <h3>Para toda a cidade</h3>
+          <ul>
+            <li>Reserva de livros pela internet</li>
+            <li>Troca e empréstimo entre moradores</li>
+            <li>Clubes de leitura e autores de Olímpia</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Acervo -->
+  <section class="bloco" id="acervo" aria-labelledby="t-acervo">
+    <div class="wrap">
+      <div class="cab">
+        <div>
+          <span class="rotulo">Biblioteca Municipal</span>
+          <h2 id="t-acervo">Acervo</h2>
+          <p>Pesquise por título, autor ou gênero e veja se o exemplar está na estante.</p>
+          <span class="aviso-exemplo">Livros de exemplo. O catálogo real virá do sistema da biblioteca.</span>
+        </div>
+        <button class="btn btn-sec btn-sm" type="button" data-ouvir-secao="acervo"><svg class="ico" aria-hidden="true"><use href="#i-som"/></svg>Ouvir esta seção</button>
+      </div>
+      <div class="filtros">
+        <div class="filtros-linha">
+          <label for="busca" class="sr">Buscar no acervo</label>
+          <input id="busca" class="campo-texto" type="search" placeholder="Ex.: Machado, romance, Vidas Secas" autocomplete="off">
+          <label for="filtro-disp" class="sr">Situação</label>
+          <select id="filtro-disp" class="campo-texto">
+            <option value="todos">Todas as situações</option>
+            <option value="disponivel">Só disponíveis</option>
+            <option value="digital">Com leitura digital</option>
+          </select>
+        </div>
+        <div class="chips" role="group" aria-label="Filtrar por gênero" id="chips-genero"></div>
+        <p class="contagem" id="contagem" aria-live="polite"></p>
+      </div>
+      <div class="grade-livros" id="grade-livros"></div>
+    </div>
+  </section>
+
+  <!-- Leitura digital -->
+  <section class="bloco" id="leitura" aria-labelledby="t-leitura">
+    <div class="wrap">
+      <div class="cab">
+        <div>
+          <span class="rotulo">Leitura digital</span>
+          <h2 id="t-leitura">Ler com a coruja</h2>
+          <p>Obras em domínio público para ler aqui mesmo. Toque numa frase para a coruja começar dali.</p>
+        </div>
+      </div>
+      <div class="leitor">
+        <article class="folha" aria-labelledby="obra-titulo">
+          <div class="abas" role="tablist" aria-label="Escolher obra" id="abas-obra"></div>
+          <header>
+            <h3 id="obra-titulo"></h3>
+            <p id="obra-sub"></p>
+            <div class="modo-texto" role="group" aria-label="Como mostrar o texto">
+              <button type="button" class="chip" id="bt-texto-original" aria-pressed="true">Texto original</button>
+              <button type="button" class="chip" id="bt-texto-simples" aria-pressed="false">Linguagem simples</button>
+            </div>
+          </header>
+          <div class="texto-obra" id="texto-obra"></div>
+        </article>
+        <aside class="painel-leitura" aria-label="Controles de leitura">
+          <div class="cartao">
+            <h3>Leitura em voz alta</h3>
+            <div class="controles">
+              <button class="btn btn-pri largo" type="button" id="bt-ler"><svg class="ico" aria-hidden="true"><use href="#i-play"/></svg><span>Ler com a coruja</span></button>
+              <button class="btn btn-sec" type="button" id="bt-pausar" disabled><svg class="ico" aria-hidden="true"><use href="#i-pausa"/></svg>Pausar</button>
+              <button class="btn btn-sec" type="button" id="bt-parar" disabled><svg class="ico" aria-hidden="true"><use href="#i-parar"/></svg>Parar</button>
+            </div>
+            <div class="progresso" aria-hidden="true"><span id="barra-prog"></span></div>
+            <p class="nota" id="prog-texto">Pronto para começar.</p>
+          </div>
+          <!-- Assistente de leitura adaptativa (js/assistente.js) -->
+          <div class="cartao assistente" id="assistente">
+            <h3>Pergunte à coruja</h3>
+            <ol class="assist-log" id="assist-log" aria-live="polite"></ol>
+            <form id="form-assist" class="assist-form" novalidate>
+              <label for="assist-pergunta">Sua pergunta</label>
+              <div class="assist-linha">
+                <button type="button" class="bt-mic" id="bt-assist-mic" aria-pressed="false" aria-label="Perguntar falando"><svg aria-hidden="true"><use href="#i-mic"/></svg></button>
+                <input id="assist-pergunta" type="text" autocomplete="off" placeholder="Ex.: o que é alcunha?" aria-describedby="assist-status">
+                <button class="btn btn-pri" type="submit">Perguntar</button>
+              </div>
+              <p class="nota" id="assist-status" role="status"></p>
+            </form>
+            <div class="assist-rapidos" role="group" aria-label="Perguntas rápidas">
+              <button type="button" class="chip" data-pergunta="Faz um resumo">Resumo</button>
+              <button type="button" class="chip" data-pergunta="Explica mais simples">Mais simples</button>
+              <button type="button" class="chip" data-pergunta="Explica o trecho">Explicar o trecho</button>
+              <button type="button" class="chip" data-pergunta="Quem são os personagens?">Personagens</button>
+              <button type="button" class="chip" data-pergunta="Me faz uma pergunta">Me faça perguntas</button>
+              <button type="button" class="chip" data-pergunta="Repetir">Repetir</button>
+            </div>
+          </div>
+          <div class="cartao">
+            <h3>Palavras difíceis deste trecho</h3>
+            <p class="nota">Toque numa palavra e a coruja explica.</p>
+            <div class="assist-palavras" id="assist-palavras"></div>
+          </div>
+          <div class="cartao adapta">
+            <h3>A coruja se adapta a você</h3>
+            <ul class="adapta-lista" id="adapta-lista"></ul>
+            <p class="nota" id="adapta-numeros"></p>
+          </div>
+          <div class="cartao">
+            <h3>Como a leitura funciona</h3>
+            <p class="nota">A frase lida fica marcada em amarelo. A janela de Libras e a legenda aparecem no canto da tela. Com a voz desligada, a coruja segue sinalizando e legendando no mesmo ritmo.</p>
+            <p class="nota">Em breve: textos de escritores, poetas e guardiões da história de Olímpia, publicados com autorização.</p>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- Trocas -->
+  <section class="bloco" id="trocas" aria-labelledby="t-trocas">
+    <div class="wrap">
+      <div class="cab">
+        <div>
+          <span class="rotulo">Comunidade</span>
+          <h2 id="t-trocas">Trocas e empréstimos</h2>
+          <p>Terminou um livro? Ofereça para um vizinho. Procure obras que outros moradores colocaram para trocar ou emprestar.</p>
+          <span class="aviso-exemplo">Ofertas de exemplo, para mostrar como vai funcionar.</span>
+        </div>
+        <div class="chips" role="group" aria-label="Filtrar ofertas" id="chips-troca">
+          <button type="button" class="chip" aria-pressed="true" data-tipo="todos">Todas</button>
+          <button type="button" class="chip" aria-pressed="false" data-tipo="Troca">Troca</button>
+          <button type="button" class="chip" aria-pressed="false" data-tipo="Empréstimo">Empréstimo</button>
+        </div>
+      </div>
+      <div class="trocas">
+        <div class="lista-trocas" id="lista-trocas" aria-live="polite"></div>
+        <div class="pilha pilha-larga">
+          <form class="cartao" id="form-oferta" novalidate>
+            <h3>Ofereça um livro</h3>
+            <label class="campo" for="of-titulo">Título
+              <input class="campo-texto" id="of-titulo" required placeholder="Ex.: O Menino Maluquinho">
+            </label>
+            <label class="campo" for="of-autor">Autor
+              <input class="campo-texto" id="of-autor" placeholder="Ex.: Ziraldo">
+            </label>
+            <div class="duas">
+              <label class="campo" for="of-tipo">Quero
+                <select class="campo-texto" id="of-tipo"><option>Troca</option><option>Empréstimo</option></select>
+              </label>
+              <label class="campo" for="of-estado">Conservação
+                <select class="campo-texto" id="of-estado"><option>Ótimo</option><option selected>Bom</option><option>Marcas de uso</option></select>
+              </label>
+            </div>
+            <label class="campo" for="of-ponto">Ponto de entrega
+              <select class="campo-texto" id="of-ponto"></select>
+            </label>
+            <p class="nota nota-erro" id="of-erro" role="alert" hidden></p>
+            <button class="btn btn-pri" type="submit">Publicar oferta</button>
+          </form>
+          <div class="cartao">
+            <h3>Pontos de encontro seguros</h3>
+            <ul class="pontos" id="lista-pontos"></ul>
+          </div>
+          <div class="cartao">
+            <h3>Regras combinadas</h3>
+            <ul class="regras">
+              <li>Empréstimo com prazo de devolução combinado na plataforma.</li>
+              <li>Descreva com sinceridade o estado do livro.</li>
+              <li>Entregas só nos pontos autorizados.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Meu cantinho -->
+  <section class="bloco" id="cantinho" aria-labelledby="t-cantinho">
+    <div class="wrap">
+      <div class="cab">
+        <div>
+          <span class="rotulo">Seu espaço</span>
+          <h2 id="t-cantinho">Meu cantinho de leitura</h2>
+          <p>Anote o que leu e o que achou. Metas e conquistas são opcionais: leia no seu ritmo.</p>
+          <span class="aviso-exemplo">Exemplo de como fica o cantinho de um leitor.</span>
+        </div>
+      </div>
+      <div class="cantinho">
+        <div class="cartao">
+          <div class="troca-switch">
+            <h3 id="rot-metas">Metas de leitura</h3>
+            <button type="button" class="switch" role="switch" aria-checked="false" aria-labelledby="rot-metas" id="sw-metas"></button>
+          </div>
+          <p class="nota" id="metas-off">Desligadas. Ligue se quiser um desafio por mês.</p>
+          <div id="metas-on" hidden>
+            <p class="meta-num">1 <small>de 2 livros em outubro</small></p>
+            <div class="progresso progresso-meta" aria-hidden="true"><span></span></div>
+            <p class="nota nota-espaco">Sem pressa. A meta não reinicia se você pular um mês.</p>
+          </div>
+        </div>
+        <div class="cartao">
+          <h3>Livros que li</h3>
+          <ul class="diario" id="diario">
+            <li><b>Vidas Secas</b><q>A cachorra Baleia ficou comigo por dias.</q></li>
+            <li><b>Quarto de Despejo</b><q>Li em uma semana. Quero discutir no clube.</q></li>
+          </ul>
+          <form id="form-diario" class="campo campo-justo">
+            <label for="di-livro">Registrar leitura</label>
+            <input class="campo-texto" id="di-livro" placeholder="Nome do livro">
+            <label for="di-nota" class="sr">O que você achou</label>
+            <input class="campo-texto" id="di-nota" placeholder="O que você achou? (opcional)">
+            <button class="btn btn-sec btn-sm alinhar-inicio" type="submit">Adicionar</button>
+          </form>
+        </div>
+        <div class="cartao">
+          <h3>Conquistas</h3>
+          <div class="conquistas">
+            <div class="conquista"><span class="medalha"><svg aria-hidden="true"><use href="#i-livro"/></svg></span>Primeira leitura</div>
+            <div class="conquista"><span class="medalha"><svg aria-hidden="true"><use href="#i-troca"/></svg></span>Primeira troca</div>
+            <div class="conquista bloq"><span class="medalha"><svg aria-hidden="true"><use href="#i-estrela"/></svg></span>Leu autor de Olímpia</div>
+          </div>
+          <div class="bloco-clube">
+            <span class="rotulo">Clube de leitura do mês</span>
+            <b>O Auto da Compadecida</b>
+            <p class="nota">Conversa virtual com legenda e intérprete de Libras.</p>
+            <button class="btn btn-sec btn-sm alinhar-inicio" type="button" id="bt-clube">Quero participar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sobre -->
+  <section class="bloco" id="sobre" aria-labelledby="t-sobre">
+    <div class="wrap sobre">
+      <div class="texto">
+        <span class="rotulo">O projeto</span>
+        <h2 id="t-sobre">Por que uma coruja buraqueira?</h2>
+        <p>A coruja buraqueira vive nos campos abertos da região, em tocas cavadas no chão, e foi declarada patrimônio de Olímpia. Ela é atenta, fica de olhos bem abertos e é vista de dia. Por isso virou a guia da biblioteca: a voz que lê para quem não enxerga e as asas que sinalizam para quem não ouve.</p>
+        <p>Nem todo mundo consegue ir à biblioteca por causa da distância, do horário ou do trabalho. A Biblioteca Virtual reúne num só lugar o acervo municipal, a leitura digital e a troca de livros entre moradores.</p>
+      </div>
+      <div class="cartao">
+        <h3>Etapas do projeto</h3>
+        <ol class="etapas">
+          <li class="agora"><div><b>Conversar com a biblioteca e a comunidade</b><span>Entender o catálogo, os empréstimos e o que os moradores esperam.</span></div></li>
+          <li><div><b>Versão inicial</b><span>Busca de livros e cadastro de exemplares para troca.</span></div></li>
+          <li><div><b>Teste com um grupo pequeno</b><span>Estudantes e moradores interessados, incluindo pessoas cegas e surdas.</span></div></li>
+          <li><div><b>Ajustes e lançamento para a cidade</b><span>Corrigir o que for preciso a partir das opiniões recebidas.</span></div></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="rodape">
+  <div class="wrap">
+    <span>Biblioteca Virtual de Olímpia · proposta em desenvolvimento</span>
+    <span>Atalhos: <kbd>Tab</kbd> navega · <kbd>Esc</kbd> para a leitura</span>
+  </div>
+</footer>
+
+<!-- Coruja assistente -->
+<div class="doca" id="doca">
+  <div class="doca-painel" id="doca-painel" role="region" aria-label="Coruja assistente: legenda e Libras" hidden>
+    <div class="doca-cab">
+      <b>Coruja Buraqueira</b>
+      <button type="button" id="bt-fechar-doca" aria-label="Fechar painel da coruja"><svg aria-hidden="true"><use href="#i-fechar"/></svg></button>
+    </div>
+    <div class="libras" id="janela-libras">
+      <span data-coruja="libras"></span>
+      <div class="libras-info">
+        <span class="libras-rot">Libras · glosa</span>
+        <span class="glosa" id="glosa" aria-hidden="true">OLÁ</span>
+        <span class="libras-nota" id="libras-nota" role="status">A coruja mostra a palavra que está falando. Para a tradução completa em Libras, ligue o intérprete.</span>
+        <button class="btn btn-olho btn-sm" type="button" id="bt-doca-vlibras" aria-pressed="false"><svg class="ico" aria-hidden="true"><use href="#i-maos"/></svg><span>Ligar intérprete de Libras</span></button>
+        <button class="btn btn-sec btn-sm" type="button" id="bt-teste-libras">Testar Libras</button>
+      </div>
+    </div>
+    <p class="legenda" id="legenda"><span class="quem">Legenda</span><span id="legenda-texto">Toque em “Ouvir” em qualquer lugar do site e eu leio pra você.</span></p>
+    <div class="doca-acoes">
+      <button class="btn btn-sec btn-sm" type="button" id="bt-doca-pausa" disabled><svg class="ico" aria-hidden="true"><use href="#i-pausa"/></svg><span>Pausar</span></button>
+      <button class="btn btn-sec btn-sm" type="button" id="bt-doca-parar" disabled><svg class="ico" aria-hidden="true"><use href="#i-parar"/></svg>Parar</button>
+      <button class="btn btn-sec btn-sm" type="button" id="bt-doca-pagina"><svg class="ico" aria-hidden="true"><use href="#i-som"/></svg>Ler a página</button>
+    </div>
+  </div>
+  <button type="button" class="doca-botao" id="bt-doca" aria-expanded="false" aria-controls="doca-painel" aria-label="Abrir a coruja assistente">
+    <span data-coruja="mini"></span>
+  </button>
+</div>
+
+<!-- Intérprete de Libras (VLibras, do Governo Federal). Ele se monta aqui quando é ligado. -->
+<div vw class="enabled" id="vlibras">
+  <div vw-access-button class="active"></div>
+  <div vw-plugin-wrapper>
+    <div class="vw-plugin-top-wrapper"></div>
+  </div>
+</div>
+
+<!-- Janela da digital (aparece quando o aparelho não tem leitor liberado e a digital é simulada) -->
+<dialog class="dlg-digital" id="dlg-digital" aria-labelledby="dlg-digital-titulo" aria-describedby="dlg-digital-texto">
+  <div class="sensor" aria-hidden="true"><svg><use href="#i-digital"/></svg></div>
+  <h2 id="dlg-digital-titulo">Confirme que é você</h2>
+  <p id="dlg-digital-texto"></p>
+  <p class="nota" id="dlg-digital-sim">Simulação: este aparelho não liberou o leitor de digital para o site. No celular ou no notebook com Windows Hello, aqui aparece o pedido de digital de verdade.</p>
+  <div class="dlg-acoes">
+    <button class="btn btn-olho btn-grande" type="button" id="bt-dlg-tocar"><svg class="ico" aria-hidden="true"><use href="#i-digital"/></svg>Encostar o dedo</button>
+    <button class="btn btn-sec" type="button" id="bt-dlg-cancelar">Cancelar</button>
+  </div>
+</dialog>
+
+<!-- Notificação que imita o SMS ou e-mail com o código -->
+<div class="sms" id="sms" role="alert" hidden>
+  <div class="sms-cab"><svg class="ico" aria-hidden="true"><use href="#i-celular"/></svg><b>Mensagem recebida</b><small>agora</small></div>
+  <p id="sms-texto"></p>
+  <div class="sms-acoes">
+    <button class="btn btn-sec btn-sm" type="button" id="bt-sms-ouvir"><svg class="ico" aria-hidden="true"><use href="#i-som"/></svg>Ouvir mensagem</button>
+    <button class="btn btn-sec btn-sm" type="button" id="bt-sms-fechar">Fechar</button>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite" hidden><svg aria-hidden="true"><use href="#i-sino"/></svg><span id="toast-texto"></span></div>
+
+<script src="js/script.js"></script>
+<script src="js/conhecimento.js"></script>
+<script src="js/assistente.js"></script>
+</body>
+</html>
